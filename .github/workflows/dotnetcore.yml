@@ -1,8 +1,9 @@
 name: .NET Core
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - master
 
 jobs:
   build:
