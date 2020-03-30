@@ -35,6 +35,7 @@ namespace S3BackupFunction
         private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
         {
             context.Logger.LogLine($"Processed message {message.Body}");
+            context.Logger.LogLine("Test CI");
 
             var title = JsonConvert.DeserializeObject<Message>(message.Body);
 
