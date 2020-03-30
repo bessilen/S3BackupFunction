@@ -1,0 +1,30 @@
+name: .NET Core
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Use .NET 2.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.500
+
+    - name: .NET Lambda build and deploy
+      uses: evalytica/dotnet-lambda-actions/deploy@v0.1.0
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: us-east-1
+        DOTNET_LAMBDA_PACKAGE_NAME: S3BackupFunction.zip
+        DOTNET_LAMBDA_FUNCTION_HANDLER: S3BackupFunction::S3BackupFunction.Function::FunctionHandler
+        DOTNET_LAMBDA_FUNCTION_NAME: dev-aws-sandbox-stack-devtitlessynchronisationlamb-11BUNEK1305DS
+        DOTNET_LAMBDA_S3_LOCATION: synchronisation-lambda-bucket/S3BackupFunction.zip
+        DOTNET_LAMBDA_WORKING_DIR: ./src/S3BackupFunction
